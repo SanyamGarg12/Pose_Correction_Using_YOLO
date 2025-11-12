@@ -1,7 +1,5 @@
 # Real-Time AI Posture Correction for Powerlifting Exercises Using YOLOv5 and MediaPipe
 
-![Project Banner](https://github.com/PSLeon24/AI_Exercise_Pose_Feedback/assets/59058869/7a8d6fc1-2d21-45a9-b92f-fdd8cadc43b9)
-
 A real-time AI-powered posture correction system for the "Big Three" powerlifting exercises (Bench Press, Squat, and Deadlift) using YOLOv5 for person detection and MediaPipe for pose estimation. The system provides real-time feedback on exercise form and counts repetitions automatically.
 
 - **Demo Video**: https://youtu.be/u4f_sdjk1Ig
@@ -9,7 +7,6 @@ A real-time AI-powered posture correction system for the "Big Three" powerliftin
 
 ## 📋 Table of Contents
 
-- [Citation](#citation)
 - [Description](#description)
 - [Features](#features)
 - [Development Environment](#development-environment)
@@ -22,31 +19,9 @@ A real-time AI-powered posture correction system for the "Big Three" powerliftin
 - [Project Timeline](#project-timeline)
 - [Award](#award)
 
-## Citation
-
-If you use this repository in your research, please cite our paper:
-
-```bibtex
-@article{ko2024real,
-  author = {Ko, Yeong-Min and Nasridinov, Aziz and Park, So-Hyun},
-  title = {Real-time AI posture correction for powerlifting exercises using YOLOv5 and MediaPipe},
-  journal = {IEEE Access},
-  year = {2024},
-  volume = {4}
-}
-```
-
-**Paper**: [IEEE Xplore - Paper Download](https://ieeexplore.ieee.org/abstract/document/10798440)
-
-**Please CITE** our paper whenever this repository is used to help produce published results or incorporated into other software.
-
 ## Description
 
 This project presents a comprehensive study on AI-powered posture correction for the three primary powerlifting exercises (Bench Press, Squat, and Deadlift) using YOLOv5 and MediaPipe. The system combines object detection, pose estimation, and machine learning classification to provide real-time feedback on exercise form.
-
-**Research Duration**: September 1, 2023 - November 20, 2023
-
-**Primary Contributor**: Yeong-Min Ko
 
 ## Features
 
@@ -293,5 +268,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 For questions or inquiries, please open an issue on the GitHub repository.
 
 ---
-
-**Note**: This project was developed as part of academic research. Please cite the paper if you use this work in your research or applications.
