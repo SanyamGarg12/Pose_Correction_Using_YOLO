@@ -5,7 +5,8 @@ import pandas as pd
 import mediapipe as mp
 import datetime
 import time
-import pygame
+import pyttsx3
+import threading
 import torch
 import pickle
 import random
@@ -44,7 +45,18 @@ def calculateAngle(a, b, c):
 
 # Initialize Streamlit app
 st.title("Real-time Big Three Exercise AI Posture Coaching")
-pygame.mixer.init()
+
+# Function to speak text in a separate thread (non-blocking)
+def speak_text(text):
+    """Speak text using pyttsx3 in a separate thread"""
+    try:
+        engine = pyttsx3.init()
+        engine.setProperty('rate', 150)
+        engine.setProperty('volume', 0.9)
+        engine.say(text)
+        engine.runAndWait()
+    except Exception as e:
+        print(f"TTS Error: {e}")
 
 # Add menu to the sidebar
 menu_selection = st.selectbox("Select exercise", ("Bench Press", "Squat", "Deadlift"))
@@ -254,100 +266,67 @@ while True:
                                 now = datetime.datetime.now()
                                 if "excessive_arch" in most_frequent(posture_status):
                                     options = [
-                                        (
-                                            "Avoid arching your lower back too much; try to keep it natural.",
-                                            "./resources/sounds/excessive_arch_1.mp3",
-                                        ),
-                                        (
-                                            "Lift your pelvis a bit and tighten your abs to keep your back flat.",
-                                            "./resources/sounds/excessive_arch_2.mp3",
-                                        ),
+                                        "Avoid arching your lower back too much; try to keep it natural.",
+                                        "Lift your pelvis a bit and tighten your abs to keep your back flat.",
                                     ]
-                                    selected_option = random.choice(options)
-                                    selected_message = selected_option[0]
-                                    selected_music = selected_option[1]
+                                    selected_message = random.choice(options)
                                     st.error(selected_message)
-                                    pygame.mixer.music.load(selected_music)
-                                    pygame.mixer.music.play()
+                                    # Speak the feedback message in a separate thread (non-blocking)
+                                    threading.Thread(target=speak_text, args=(selected_message,), daemon=True).start()
                                     posture_status = []
                                     previous_alert_time = current_time
                                 elif "arms_spread" in most_frequent(posture_status):
                                     options = [
-                                        (
-                                            "Your grip is too wide. Hold the bar a bit narrower.",
-                                            "./resources/sounds/arms_spread_1.mp3",
-                                        ),
-                                        (
-                                            "When gripping the bar, hold it slightly wider than shoulder width.",
-                                            "./resources/sounds/arms_spread_2.mp3",
-                                        ),
+                                        "Your grip is too wide. Hold the bar a bit narrower.",
+                                        "When gripping the bar, hold it slightly wider than shoulder width.",
                                     ]
-                                    selected_option = random.choice(options)
-                                    selected_message = selected_option[0]
-                                    selected_music = selected_option[1]
+                                    selected_message = random.choice(options)
                                     st.error(selected_message)
-                                    pygame.mixer.music.load(selected_music)
-                                    pygame.mixer.music.play()
+                                    # Speak the feedback message in a separate thread (non-blocking)
+                                    threading.Thread(target=speak_text, args=(selected_message,), daemon=True).start()
                                     posture_status = []
                                     previous_alert_time = current_time
                                 elif "spine_neutral" in most_frequent(posture_status):
                                     options = [
-                                        (
-                                            "Avoid excessive curvature of the spine.",
-                                            "./resources/sounds/spine_neutral_feedback_1.mp3",
-                                        ),
-                                        (
-                                            "Lift your chest and push your shoulders back.",
-                                            "./resources/sounds/spine_neutral_feedback_2.mp3",
-                                        ),
+                                        "Avoid excessive curvature of the spine.",
+                                        "Lift your chest and push your shoulders back.",
                                     ]
-                                    selected_option = random.choice(options)
-                                    selected_message = selected_option[0]
-                                    selected_music = selected_option[1]
+                                    selected_message = random.choice(options)
                                     st.error(selected_message)
-                                    pygame.mixer.music.load(selected_music)
-                                    pygame.mixer.music.play()
+                                    # Speak the feedback message in a separate thread (non-blocking)
+                                    threading.Thread(target=speak_text, args=(selected_message,), daemon=True).start()
                                     posture_status = []
                                     previous_alert_time = current_time
                                 elif "caved_in_knees" in most_frequent(posture_status):
                                     options = [
-                                        (
-                                            "Be cautious not to let your knees cave in during the squat.",
-                                            "./resources/sounds/caved_in_knees_feedback_1.mp3",
-                                        ),
-                                        (
-                                            "Push your hips back to keep your knees and toes in a straight line.",
-                                            "./resources/sounds/caved_in_knees_feedback_2.mp3",
-                                        ),
+                                        "Be cautious not to let your knees cave in during the squat.",
+                                        "Push your hips back to keep your knees and toes in a straight line.",
                                     ]
-                                    selected_option = random.choice(options)
-                                    selected_message = selected_option[0]
-                                    selected_music = selected_option[1]
+                                    selected_message = random.choice(options)
                                     st.error(selected_message)
-                                    pygame.mixer.music.load(selected_music)
-                                    pygame.mixer.music.play()
+                                    # Speak the feedback message in a separate thread (non-blocking)
+                                    threading.Thread(target=speak_text, args=(selected_message,), daemon=True).start()
                                     posture_status = []
                                     previous_alert_time = current_time
                                 elif "feet_spread" in most_frequent(posture_status):
-                                    st.error("Narrow your stance to about shoulder width.")
-                                    pygame.mixer.music.load(
-                                        "./resources/sounds/feet_spread.mp3"
-                                    )
-                                    pygame.mixer.music.play()
+                                    feedback_message = "Narrow your stance to about shoulder width."
+                                    st.error(feedback_message)
+                                    # Speak the feedback message in a separate thread (non-blocking)
+                                    threading.Thread(target=speak_text, args=(feedback_message,), daemon=True).start()
                                     posture_status = []
                                     previous_alert_time = current_time
                                 elif "arms_narrow" in most_frequent(posture_status):
-                                    st.error("Your grip is too narrow. Hold the bar slightly wider than shoulder width.")
-                                    pygame.mixer.music.load(
-                                        "./resources/sounds/arms_narrow.mp3"
-                                    )
-                                    pygame.mixer.music.play()
+                                    feedback_message = "Your grip is too narrow. Hold the bar slightly wider than shoulder width."
+                                    st.error(feedback_message)
+                                    # Speak the feedback message in a separate thread (non-blocking)
+                                    threading.Thread(target=speak_text, args=(feedback_message,), daemon=True).start()
                                     posture_status = []
                                     previous_alert_time = current_time
                         elif "correct" in most_frequent(posture_status):
-                            pygame.mixer.music.load("./resources/sounds/correct.mp3")
-                            pygame.mixer.music.play()
-                            st.info("You are performing the exercise with the correct posture.")
+                            feedback_message = "You are performing the exercise with the correct posture."
+                            st.info(feedback_message)
+                            # Speak the feedback message in a separate thread (non-blocking)
+                            threading.Thread(target=speak_text, args=(feedback_message,), daemon=True).start()
                             posture_status = []
                 except Exception as e:
                     pass
